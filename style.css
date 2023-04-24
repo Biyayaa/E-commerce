@@ -1,0 +1,43 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#categories h1{
+    font-size: 50px;
+    text-align: center;
+}
+
+
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+.cat-btn{
+    border: none;
+    margin: 20px 10px;
+    background-color: transparent;
+}
+
+.cat img{
+    width: 150px;
+}
+
+.categories{
+    /* border: 2px solid black; */
+    margin: 0 5%;
+    width: 90%;
+    display: flex;
+    overflow: auto;
+    text-align: center;
+    align-items: center;
+    /* display: flex; */
+    /* flex-wrap: wrap; */
+    justify-content: center;
+    /* width: 800px; */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.37);
+
+}
