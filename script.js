@@ -24,9 +24,7 @@ async function displayGoods() {
             <h5>${el.title}</h5>
             <h4>$${el.price}</h4>
             <span class="rate">${el.rating}</span>
-            <button id="addToCart-${el.id}" onclick="addToCart(event,${
-      el.id
-    })" class='btn btn-warning'>
+            <button id="addToCart-${el.id}" onclick="addToCart(event,${el.id})" class='btn btn-warning'>
   ${errmm ? "Remove from Cart" : "Add to Cart"}
 </button>
         </div>
@@ -115,6 +113,8 @@ cartBtn.addEventListener("click", () => {
     }
   };
 });
+displayGoods();
+
 
 function removeFromCart(ev, id) {
   let found = myCart.find((el) => el.id == id);
@@ -129,7 +129,7 @@ function removeFromCart(ev, id) {
 
   // update cart count and remove item from modal list
   cartCount();
-  ev.target.parentNode.remove();
+  ev.target.parentNode.parentNode.remove();
 
   // update total cart price
   let cartTotal = document.getElementById("cartTotal");
