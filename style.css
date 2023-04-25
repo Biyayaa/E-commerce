@@ -131,59 +131,57 @@ body {
     display: none;
 }
 
-#products, #products2{
-    text-align: center;
-}
-
-#products .pro-container, #products2 .pro-container{
+#products{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    padding-top: 20px;
-
+    justify-content: center;
 }
 
-#products .pro, #products2 .pro{
-    width: 23%;
+
+#products .pro{
+    width: 20%;
     min-width: 250px;
     padding: 10px 12px;
     border: 1px solid rgba(128, 128, 128, 0.644);
     border-radius: 25px;
     cursor: pointer;
     box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.02);
-    margin: 15px 0;
+    margin: 15px 15px;
     transition: 0.2s ease;
     position: relative;
 }
 
-#products .pro:hover, #products2 .pro:hover{
+#products .pro:hover{
     box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.06);
 }
 
-#products .pro img, #products2 .pro img{
+#products .pro img{
     width: 100%;
     height: 150px;
     border-radius: 20px;
 }
 
 
-#products .pro .des, #products2 .pro .des{
+#products .pro .des{
     text-align: start;
     padding: 10px 0;
 }
 
-#products .pro .des span, #products2 .pro .des span{
+#products .pro .des span{
     color: #333;
     font-size: 12px;
 }
 
-#products .pro .des h5, #products2 .pro .des h5{
+#products .pro .des h5{
     padding-top: 7px;
     color: #000000;
     font-size: 17px;
 }
 
-#products .pro .fa-cart-plus, #products2 .pro .fa-cart-plus{
+#products .pro .fa-cart-plus{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 40px;
     height: 40px;
     line-height: 40px;
@@ -196,4 +194,43 @@ body {
     bottom: 20px;
     right: 10px;
 }
+
+
+/* The modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* 10% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
   
