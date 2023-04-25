@@ -79,7 +79,7 @@ cartBtn.addEventListener("click", () => {
   let total = 0;
   myCart.forEach((item) => {
     // let listItem = document.createElement("li");
-    cartList.innerHTML += `<div class="cart-item-container">
+    cartList.innerHTML += `< class="cart-item-container">
     <div class="cart-item-image">
     <img src="${item.thumbnail}">
     </div>
@@ -91,9 +91,9 @@ cartBtn.addEventListener("click", () => {
     <div class="cart-item-price">
     ${item.price}
     </div>
-    <div>
+    
     <button onclick="removeFromCart(event, ${item.id})">Remove</button>
-    </div>
+    
     </div>
     `;
     // cartList.appendChild(listItem);
