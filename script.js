@@ -24,7 +24,9 @@ async function displayGoods() {
             <h5>${el.title}</h5>
             <h4>$${el.price}</h4>
             <span class="rate">${el.rating}</span>
-            <button id="addToCart-${el.id}" onclick="addToCart(event,${el.id})" class='btn btn-warning'>
+            <button id="addToCart-${el.id}" onclick="addToCart(event,${
+      el.id
+    })" class='btn btn-warning'>
   ${errmm ? "Remove from Cart" : "Add to Cart"}
 </button>
         </div>
@@ -76,12 +78,25 @@ cartBtn.addEventListener("click", () => {
 
   let total = 0;
   myCart.forEach((item) => {
-    let listItem = document.createElement("li");
-    listItem.innerHTML = `
-      <span>${item.brand} ${item.title} - $${item.price}</span>
-      <button onclick="removeFromCart(event, ${item.id})">Remove</button>
+    // let listItem = document.createElement("li");
+    cartList.innerHTML += `<div class="cart-item-container">
+    <div class="cart-item-image">
+    <img src="${item.thumbnail}">
+    </div>
+    <div class="cart-item-des">
+    <span>${item.title}</span>
+    <span>${item.brand}</span>
+    <span>${item.stock}</span>
+    </div>
+    <div class="cart-item-price">
+    ${item.price}
+    </div>
+    <div>
+    <button onclick="removeFromCart(event, ${item.id})">Remove</button>
+    </div>
+    </div>
     `;
-    cartList.appendChild(listItem);
+    // cartList.appendChild(listItem);
     total += item.price;
   });
 
@@ -127,7 +142,6 @@ function removeFromCart(ev, id) {
   addToCartBtn.innerHTML = "Add to Cart";
   addToCartBtn.id = `addToCart-${id}`;
 }
-
 
 function showOne(id) {
   localStorage.setItem("oneItem", id);
