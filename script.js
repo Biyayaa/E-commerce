@@ -16,17 +16,20 @@ async function fetchProducts() {
     
     data.products.forEach((item) => {
       productsElement.innerHTML += `
-            <div class="pro-container">
-                <div class="pro">
-                <img src="${item.thumbnail}">
-                    <div class="des">
-                        <span>${item.brand}</span>
-                        <h5>${item.title}</h5>
-                        <h4>$${item.price}</h4>
-                        <span class="rate">${item.rating}</span>
-                    </div>
-                    <i class="fa-solid fa-cart-plus"></i>
-                </div>
+
+      <div class="products">
+      
+      <div onclick="productItem(${item.id})" class="pro-container" >
+          <div class="pro">
+          <img src="${item.thumbnail}">
+              <div class="des">
+                  <span>${item.brand}</span>
+                  <h5>${item.title}</h5>
+                  <h4>$${item.price}</h4>
+                  <span class="rate">${item.rating}</span>
+              </div>
+              <i class="fa-solid fa-cart-plus"></i>
+          </div>
 
             </div>
       `;
