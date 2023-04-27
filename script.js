@@ -97,7 +97,7 @@ cartBtn.addEventListener("click", () => {
       <button onclick="removeFromCart(event, ${item.id})">Remove</button>
       <div class="quantity-count">
       <button onclick="reduceQty(${item.id})">-</button>
-      <h3>${item.quantity}</h3>
+      <h3 id="quantity${item.id}">${item.quantity}</h3>
       <button onclick="addQty(${item.id})">+</button>
       </div>
       </div>
@@ -123,6 +123,7 @@ cartBtn.addEventListener("click", () => {
 function addQty(id) {
   let myItems = myCart.find(el => el.id == id);
   myItems.quantity++
+  document.getElementById(`quantity${id}`).innerHTML=myItems.quantity
   console.log(myItems.quantity);
   quant=myItems.quantity;
   // console.log(quant);
@@ -133,7 +134,8 @@ function addQty(id) {
 
 function reduceQty(id) {
   let myItems = myCart.find(el => el.id == id);
-  myItems.quantity--
+  myItems.quantity--;
+  document.getElementById(`quantity${id}`).innerHTML=myItems.quantity;
   console.log(myItems.quantity);
   quant=myItems.quantity;
   // console.log(quant);
