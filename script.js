@@ -81,6 +81,7 @@ cartBtn.addEventListener("click", () => {
   let total = 0;
 
   myCart.forEach((item) => {
+
     cartList.innerHTML += `<div class="cart-item-container">
       <div class="cart-item-image">
       <img src="${item.thumbnail}">
@@ -104,6 +105,7 @@ cartBtn.addEventListener("click", () => {
       </div>
       `;
     total += item.price * item.quantity;
+ 
   });
 
 
