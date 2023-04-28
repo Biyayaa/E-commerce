@@ -1,6 +1,8 @@
 let myGoods;
 let url = "https://dummyjson.com/products";
 let products = document.getElementById("products");
+let item;
+let quant=1;
 async function fetchGoods() {
   let goods = await fetch(url);
   let res = await goods.json();
@@ -55,6 +57,7 @@ function addToCart(ev, id) {
   } else {
     ev.target.innerHTML = "Remove from cart";
     ev.target.id = `removeFromCart-${found.id}`;
+    found.quantity = 1; // initialize quantity to 1
     myCart.push(found);
     localStorage.setItem("cart", JSON.stringify(myCart));
     cartCount();
@@ -75,40 +78,43 @@ cartBtn.addEventListener("click", () => {
 
   let cartList = document.getElementById("cartList");
   cartList.innerHTML = ""; // clear existing items
-
   let total = 0;
+
   myCart.forEach((item) => {
-    // let listItem = document.createElement("li");
-    cartList.innerHTML += `< class="cart-item-container">
-    <div class="cart-item-image">
-    <img src="${item.thumbnail}">
-    </div>
-    <div class="cart-item-des">
-    <span>${item.title}</span>
-    <span>${item.brand}</span>
-    <span>${item.stock}</span>
-    </div>
-    <div class="cart-item-price">
-    ${item.price}
-    </div>
-    
-    <button onclick="removeFromCart(event, ${item.id})">Remove</button>
-    
-    </div>
-    `;
-    // cartList.appendChild(listItem);
-    total += item.price;
+
+    cartList.innerHTML += `<div class="cart-item-container">
+      <div class="cart-item-image">
+      <img src="${item.thumbnail}">
+      </div>
+      <div class="cart-item-des">
+      <span>${item.title}</span>
+      <span>${item.brand}</span>
+      <span>${item.stock}</span>
+      </div>
+      <div class="cart-item-price">
+      ${item.price}
+      </div>
+      <div class="btn-counter">
+      <button onclick="removeFromCart(event, ${item.id})">Remove</button>
+      <div class="quantity-count">
+      <button onclick="reduceQty(${item.id})">-</button>
+      <h3 id="quantity${item.id}">${item.quantity}</h3>
+      <button onclick="addQty(${item.id})">+</button>
+      </div>
+      </div>
+      </div>
+      `;
+    total += item.price * item.quantity;
+ 
   });
 
+
   let cartTotal = document.getElementById("cartTotal");
-  cartTotal.innerHTML = total.toFixed(2);
-
+  cartTotal.innerHTML = `${total.toFixed(2)}`;
   modal.style.display = "block";
-
   span.onclick = function () {
     modal.style.display = "none";
   };
-
   window.onclick = function (event) {
     if (event.target == modal) {
       modal.style.display = "none";
@@ -116,12 +122,38 @@ cartBtn.addEventListener("click", () => {
   };
 });
 
+function addQty(id) {
+  let myItems = myCart.find(el => el.id == id);
+  myItems.quantity++
+  document.getElementById(`quantity${id}`).innerHTML=myItems.quantity
+  console.log(myItems.quantity);
+  quant=myItems.quantity;
+  // console.log(quant);
+
+  localStorage.setItem("cart", JSON.stringify(myCart));
+  
+}
+
+function reduceQty(id) {
+  let myItems = myCart.find(el => el.id == id);
+  myItems.quantity--;
+  document.getElementById(`quantity${id}`).innerHTML=myItems.quantity;
+  console.log(myItems.quantity);
+  quant=myItems.quantity;
+  // console.log(quant);
+
+  localStorage.setItem("cart", JSON.stringify(myCart));
+  
+}
+
+
 function removeFromCart(ev, id) {
   let found = myCart.find((el) => el.id == id);
   let myIndex = myCart.indexOf(found);
 
   // calculate price of item being removed
-  let removedPrice = found.price;
+  let quantity = document.getElementById("quantity").value;
+  let removedPrice = found.price * quantity;
 
   // remove item from cart
   myCart.splice(myIndex, 1);
@@ -129,7 +161,7 @@ function removeFromCart(ev, id) {
 
   // update cart count and remove item from modal list
   cartCount();
-  ev.target.parentNode.remove();
+  ev.target.parentNode.parentNode.remove();
 
   // update total cart price
   let cartTotal = document.getElementById("cartTotal");
