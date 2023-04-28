@@ -19,12 +19,12 @@ async function displayGoods() {
   let resp = await myGoods.forEach((el, index) => {
     let errmm = myCart.some((ssmm) => ssmm.id == el.id);
     products.innerHTML += `
-    <div class='pro'>
+    <div onclick= "proInfo(event)" class='pro'>
     <img src="${el.thumbnail}">
         <div class="des">
             <span>${el.brand}</span>
             <h5>${el.title}</h5>
-            <h4>$${el.price}</h4>
+            <h4>#${el.price}</h4>
             <span class="rate">${el.rating}</span>
             <button id="addToCart-${el.id}" onclick="addToCart(event,${
       el.id
@@ -38,6 +38,30 @@ async function displayGoods() {
   });
 }
 displayGoods();
+
+function proInfo(event) {
+  let el = event.target.parentNode;
+  let imgSrc = el.querySelector("img").src;
+  let description = el.querySelector(".des").innerHTML;
+
+  let modal = document.getElementById("myModalPro");
+  let modalImg = document.getElementById("modal-pro-img");
+  let modalDescription = document.getElementById("modal-pro-description");
+
+  modal.style.display = "block";
+  modalImg.src = imgSrc;
+  modalDescription.innerHTML = description;
+
+  let closeBtn = document.getElementsByClassName("close")[0];
+  closeBtn.onclick = function () {
+    modal.style.display = "none";
+  };
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+}
 
 function addToCart(ev, id) {
   let found = myGoods.find((el) => el.id == id);
@@ -91,7 +115,7 @@ cartBtn.addEventListener("click", () => {
       <span>${item.stock}</span>
       </div>
       <div class="cart-item-price">
-      $${item.price.toFixed(2)}
+      #${item.price.toFixed(2)}
       </div>
       <div class="btn-counter">
       <button onclick="removeFromCart(event, ${item.id})">Remove</button>
@@ -203,8 +227,8 @@ function makePayment() {
     public_key: "FLWPUBK_TEST-1c1913436f4bb40793ad01c221cffc6f-X",
     tx_ref: "titanic-48981487343MDI0NzMx",
     amount: total,
-    currency: "USD",
-    payment_options: "card, mobilemoneyghana, ussd",
+    currency: "NGN",
+    payment_options: "card, banktransfer, ussd",
     redirect_url: "https://glaciers.titanic.com/handle-flutterwave-payment",
     meta: {
       consumer_id: 23,
