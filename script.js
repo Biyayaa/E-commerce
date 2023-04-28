@@ -2,7 +2,6 @@ let myGoods;
 let url = "https://dummyjson.com/products";
 let products = document.getElementById("products");
 let item;
-// let quant = 1;
 async function fetchGoods() {
   let goods = await fetch(url);
   let res = await goods.json();
@@ -91,7 +90,11 @@ function addToCart(ev, id) {
 }
 
 function cartCount() {
-  document.getElementById("cartCount").innerHTML = myCart.length;
+  let totalQuantity = 0;
+  myCart.forEach((item) => {
+    totalQuantity += item.quantity;
+  });
+  document.getElementById("cartCount").innerHTML = totalQuantity;
 }
 cartCount();
 
@@ -148,18 +151,14 @@ function addQty(id) {
   myItems.quantity++;
   document.getElementById(`quantity${id}`).innerHTML = myItems.quantity;
   console.log(myItems.quantity);
-
-  // quant = myItems.quantity;
-  // console.log(quant);
-
   localStorage.setItem("cart", JSON.stringify(myCart));
-
   let total = 0;
   myCart.forEach((item) => {
     total += item.price * item.quantity;
   });
   let cartTotal = document.getElementById("cartTotal");
   cartTotal.innerHTML = `${total.toFixed(2)}`;
+  cartCount();
 }
 
 function reduceQty(id) {
@@ -182,6 +181,7 @@ function reduceQty(id) {
   } else {
     document.getElementById(`quantity${id}`).innerHTML = 1;
   }
+  cartCount();
 }
 
 function removeFromCart(ev, id) {
