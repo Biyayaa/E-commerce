@@ -2,7 +2,7 @@ let myGoods;
 let url = "https://dummyjson.com/products";
 let products = document.getElementById("products");
 let item;
-let quant=1;
+// let quant = 1;
 async function fetchGoods() {
   let goods = await fetch(url);
   let res = await goods.json();
@@ -81,7 +81,6 @@ cartBtn.addEventListener("click", () => {
   let total = 0;
 
   myCart.forEach((item) => {
-
     cartList.innerHTML += `<div class="cart-item-container">
       <div class="cart-item-image">
       <img src="${item.thumbnail}">
@@ -92,7 +91,7 @@ cartBtn.addEventListener("click", () => {
       <span>${item.stock}</span>
       </div>
       <div class="cart-item-price">
-      ${item.price}
+      $${item.price.toFixed(2)}
       </div>
       <div class="btn-counter">
       <button onclick="removeFromCart(event, ${item.id})">Remove</button>
@@ -105,9 +104,7 @@ cartBtn.addEventListener("click", () => {
       </div>
       `;
     total += item.price * item.quantity;
- 
   });
-
 
   let cartTotal = document.getElementById("cartTotal");
   cartTotal.innerHTML = `${total.toFixed(2)}`;
@@ -123,37 +120,52 @@ cartBtn.addEventListener("click", () => {
 });
 
 function addQty(id) {
-  let myItems = myCart.find(el => el.id == id);
-  myItems.quantity++
-  document.getElementById(`quantity${id}`).innerHTML=myItems.quantity
+  let myItems = myCart.find((el) => el.id == id);
+  myItems.quantity++;
+  document.getElementById(`quantity${id}`).innerHTML = myItems.quantity;
   console.log(myItems.quantity);
-  quant=myItems.quantity;
+
+  // quant = myItems.quantity;
   // console.log(quant);
 
   localStorage.setItem("cart", JSON.stringify(myCart));
-  
+
+  let total = 0;
+  myCart.forEach((item) => {
+    total += item.price * item.quantity;
+  });
+  let cartTotal = document.getElementById("cartTotal");
+  cartTotal.innerHTML = `${total.toFixed(2)}`;
 }
 
 function reduceQty(id) {
-  let myItems = myCart.find(el => el.id == id);
-  myItems.quantity--;
-  document.getElementById(`quantity${id}`).innerHTML=myItems.quantity;
-  console.log(myItems.quantity);
-  quant=myItems.quantity;
-  // console.log(quant);
+  let myItems = myCart.find((el) => el.id == id);
+  if (myItems.quantity > 1) {
+    myItems.quantity--;
+    document.getElementById(`quantity${id}`).innerHTML = myItems.quantity;
+    console.log(myItems.quantity);
+    quant = myItems.quantity;
+    // console.log(quant);
 
-  localStorage.setItem("cart", JSON.stringify(myCart));
-  
+    localStorage.setItem("cart", JSON.stringify(myCart));
+
+    let total = 0;
+    myCart.forEach((item) => {
+      total += item.price * item.quantity;
+    });
+    let cartTotal = document.getElementById("cartTotal");
+    cartTotal.innerHTML = `${total.toFixed(2)}`;
+  } else {
+    document.getElementById(`quantity${id}`).innerHTML = 1;
+  }
 }
-
 
 function removeFromCart(ev, id) {
   let found = myCart.find((el) => el.id == id);
   let myIndex = myCart.indexOf(found);
 
   // calculate price of item being removed
-  let quantity = document.getElementById("quantity").value;
-  let removedPrice = found.price * quantity;
+  let removedPrice = found.price * found.quantity;
 
   // remove item from cart
   myCart.splice(myIndex, 1);

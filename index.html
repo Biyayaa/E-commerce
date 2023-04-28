@@ -61,10 +61,18 @@
 
       <div id="myModal" class="modal">
         <div class="modal-content">
-          <span class="close">&times;</span>
-          <h2>Your Cart</h2>
-          <div id="cartList"></div>
-          <p>Total: $<span id="cartTotal"></span></p>
+          <div>
+            <span class="close">&times;</span>
+            <h2>Your Cart</h2>
+            <div class="cart-list-summary">
+              <div id="cartList"></div>
+              <div id="cartSummary">
+                Cart summary
+                <p>Total: $<span id="cartTotal"></span></p>
+                <button>Checkout</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
