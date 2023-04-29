@@ -168,8 +168,8 @@ cartBtn.addEventListener("click", () => {
       </div>
       <div class="cart-item-des">
       <span>${item.title}</span>
-      <span>${item.brand}</span>
-      <span>${item.stock}</span>
+      <p>${item.description}</p>
+      <p>Brand:${item.brand}</p>
       </div>
       <div class="cart-item-price">
       #${item.price.toFixed(2)}
@@ -183,6 +183,7 @@ cartBtn.addEventListener("click", () => {
       </div>
       </div>
       </div>
+      <hr>
       `;
     total += item.price * item.quantity;
   });
