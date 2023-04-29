@@ -18,7 +18,8 @@ async function displayGoods() {
   let resp = await myGoods.forEach((el, index) => {
     let errmm = myCart.some((ssmm) => ssmm.id == el.id);
     products.innerHTML += `
-    <div onclick= "proInfo(event)" class='pro'>
+  <div onclick="proInfo(${el.id})" class='pro'>
+
     <img src="${el.thumbnail}">
         <div class="des">
             <span>${el.brand}</span>
@@ -38,23 +39,76 @@ async function displayGoods() {
 }
 displayGoods();
 
-function proInfo(event) {
-  let el = event.target.parentNode;
-  let imgSrc = el.querySelector("img").src;
-  let description = el.querySelector(".des").innerHTML;
-
+function proInfo(id) {
+  let clickedProduct = myGoods.find((el) => el.id == id);
+  console.log(clickedProduct);
+  let errmm = myCart.some((ssmm) => ssmm.id == clickedProduct.id);
   let modal = document.getElementById("myModalPro");
-  let modalImg = document.getElementById("modal-pro-img");
-  let modalDescription = document.getElementById("modal-pro-description");
-
   modal.style.display = "block";
-  modalImg.src = imgSrc;
-  modalDescription.innerHTML = description;
 
-  let closeBtn = document.getElementsByClassName("close")[0];
-  closeBtn.onclick = function () {
-    modal.style.display = "none";
-  };
+  let modalDescription = document.getElementById("modalDescription");
+
+  let imageGallery = "";
+  clickedProduct.images.forEach((image) => {
+    imageGallery += `<img src="${image}">`;
+  });
+
+  modalDescription.innerHTML = `<div class="product-details-container">
+    <div class="product-images">
+      <img id="thumbnail-${clickedProduct.id}" src="${
+    clickedProduct.thumbnail
+  }">
+      <div class="image-gallery">
+        ${imageGallery}
+      </div>
+    </div>
+
+    <div class="product-description">
+      <p>${clickedProduct.title}</p>
+      <p>${clickedProduct.description}</p>
+      <p>${clickedProduct.brand}</p>
+      <p>${clickedProduct.rating}</p>
+      <p>#${clickedProduct.price}</p>
+      <button id="addToCart-${clickedProduct.id}" onclick="addToCart(event,${
+    clickedProduct.id
+  })" class='btn btn-warning'>
+        ${errmm ? "Remove from Cart" : "Add to Cart"}
+      </button>
+    </div>
+
+    <div>
+  `;
+
+  // Check if product is in cart and has a quantity
+  let cartProduct = myCart.find((el) => el.id == clickedProduct.id);
+  if (errmm && cartProduct.quantity !== undefined) {
+    modalDescription.innerHTML += `
+      <div class="quantity-count">
+        <button onclick="reduceQty(${clickedProduct.id})">-</button>
+        <h3 id="quantity${clickedProduct.id}">${cartProduct.quantity}</h3>
+        <button onclick="addQty(${clickedProduct.id})">+</button>
+      </div>
+    `;
+  }
+
+  // Update the corresponding button on the display page
+  let addToCartButton = document.getElementById(
+    `addToCart-${clickedProduct.id}`
+  );
+  addToCartButton.innerHTML = errmm ? "Remove from Cart" : "Add to Cart";
+
+  // Add event listener to each image in image gallery
+  let imageGalleryImages =
+    modalDescription.querySelectorAll(".image-gallery img");
+  imageGalleryImages.forEach((image) => {
+    image.addEventListener("click", () => {
+      let thumbnail = document.getElementById(`thumbnail-${clickedProduct.id}`);
+      let tempSrc = thumbnail.src;
+      thumbnail.src = image.src;
+      image.src = tempSrc;
+    });
+  });
+
   window.onclick = function (event) {
     if (event.target == modal) {
       modal.style.display = "none";
@@ -209,11 +263,6 @@ function removeFromCart(ev, id) {
   let addToCartBtn = document.getElementById(`addToCart-${id}`);
   addToCartBtn.innerHTML = "Add to Cart";
   addToCartBtn.id = `addToCart-${id}`;
-}
-
-function showOne(id) {
-  localStorage.setItem("oneItem", id);
-  window.location.href = "oneProd.html";
 }
 
 function makePayment() {
