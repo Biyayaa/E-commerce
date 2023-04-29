@@ -18,9 +18,9 @@ async function displayGoods() {
   let resp = await myGoods.forEach((el, index) => {
     let errmm = myCart.some((ssmm) => ssmm.id == el.id);
     products.innerHTML += `
-  <div onclick="proInfo(${el.id})" class='pro'>
+  <div class='pro'>
 
-    <img src="${el.thumbnail}">
+    <img onclick="proInfo(${el.id})" src="${el.thumbnail}">
         <div class="des">
             <span>${el.brand}</span>
             <h5>${el.title}</h5>
@@ -92,10 +92,10 @@ function proInfo(id) {
   }
 
   // Update the corresponding button on the display page
-  let addToCartButton = document.getElementById(
-    `addToCart-${clickedProduct.id}`
-  );
-  addToCartButton.innerHTML = errmm ? "Remove from Cart" : "Add to Cart";
+  // let addToCartButton = document.getElementById(
+  //   `addToCart-${clickedProduct.id}`
+  // );
+  // addToCartButton.innerHTML = errmm ? "Remove from Cart" : "Add to Cart";
 
   // Add event listener to each image in image gallery
   let imageGalleryImages =
